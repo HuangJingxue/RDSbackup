@@ -54,6 +54,46 @@ a = {
 
 ```
 
+#### 执行日志
+```shell
+[root@hjx02 RdsBackup]# python rds_backup.py 
+rm-bp14c1r9rhrzavel9 Logical
+{"RequestId":"64890143-8C91-4ECD-8362-E37ABA8594BE","BackupJobId":"4172159"}
+等待中.
+等待中.
+等待中.
+等待中.
+等待中.
+等待中.
+等待中.
+等待中.
+等待中.
+等待中.
+等待中.
+等待中.
+等待中.
+等待中.
+等待中.
+等待中.
+等待中.
+等待中.
+等待中.
+等待中.
+等待中.
+等待中.
+等待中.
+{u'HostInstanceID': 5101347, u'BackupLocation': u'OSS', u'StoreStatus': u'Disabled', u'BackupEndTime': u'2018-07-26T07:25:35Z', u'DBInstanceId': u'rm-bp14c1r9rhrzavel9', u'BackupMode': u'Manual', u'BackupDownloadURL': u'http://rdsbak-hzi-v2.oss-cn-hangzhou-i.aliyuncs.com/custins7573033/hins5101347_data_20180726152324.tar?OSSAccessKeyId=LTAITfQ7krsrEwRn&Expires=1532676422&Signature=BYsar6utWqPjwtIhKKSwQuE4KhY%3D', u'BackupType': u'FullBackup', u'BackupDBNames': u'db', u'BackupStartTime': u'2018-07-26T07:24:11Z', u'BackupIntranetDownloadURL': u'http://rdsbak-hzi-v2.oss-cn-hangzhou-internal.aliyuncs.com/custins7573033/hins5101347_data_20180726152324.tar?OSSAccessKeyId=LTAITfQ7krsrEwRn&Expires=1532676422&Signature=BYsar6utWqPjwtIhKKSwQuE4KhY%3D', u'BackupId': 257041132, u'BackupSize': 10240, u'BackupMethod': u'Logical', u'BackupStatus': u'Success', u'BackupScale': u'DBInstance'}
+开始下载 rm-bp14c1r9rhrzavel9
+0.00%
+80.00%
+100.00%
+下载完成.
+无失败任务， 所有任务已全部完成.
+开始文件清理中。。。
+过期文件已清理完毕：
+共找到过期文件0个，清理成功0个：
+```
+
 
 
 

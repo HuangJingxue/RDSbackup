@@ -1,7 +1,8 @@
 # -*- coding:utf-8 -*-
 
 # author : kefatong
-# __version__ : 1.2.2
+# update : apple huang
+# __version__ : 2.2.1
 
 import requests
 import json
@@ -18,6 +19,7 @@ from aliyunsdkcore import client
 from aliyunsdkrds.request.v20140815 import DescribeDBInstancesRequest, DescribeRegionsRequest, \
     DescribeDBInstanceAttributeRequest, CreateBackupRequest, DescribeDatabasesRequest
 from aliyunsdkrds.request.v20140815 import DescribeBackupsRequest
+import exceptions
 
 
 
@@ -25,6 +27,11 @@ from aliyunsdkrds.request.v20140815 import DescribeBackupsRequest
 # backup_end_time = backup_start_time + datetime.timedelta(1)
 # StartTime = backup_start_time.strftime('%Y-%m-%dT%H:00Z')
 # EndTime = backup_end_time.strftime('%Y-%m-%dT00:00Z')
+backup_start_time = datetime.datetime.now()
+year_time = backup_start_time.strftime('%y')
+month_time = backup_start_time.strftime('%m')
+day_time = backup_start_time.strftime('%d')
+
 
 
 logging.basicConfig(level=logging.DEBUG,
@@ -194,7 +201,10 @@ class RDS():
             print '%.2f%%' % per
 
         try:
-            local = os.path.join(config.backup_dir, _format)
+            full_path = os.path.join(config.backup_dir,year_time,month_time,day_time)
+            if not os.path.exists(full_path):
+                os.makedirs(full_path)
+            local = os.path.join(full_path, _format)
             urllib.urlretrieve(download_url, local, Schedule)
             self._success.append(instance['DBInstanceId'])
             logging.info(u'%s 已经下载完成' % instance['DBInstanceId'])
@@ -248,10 +258,11 @@ class RDS():
 
     def clean(self):
         print u'开始文件清理中。。。'
-        f = list(os.listdir(config.backup_dir))
+	full_path = os.path.join(config.backup_dir,year_time,month_time,day_time)
+        f = list(os.listdir(full_path))
         for i in range(len(f)):
-            # print f[i]
-            filedate = os.path.getmtime(config.backup_dir + f[i])
+            filename = os.path.join(full_path,f[i])
+            filedate = os.path.getmtime(filename)
             time1 = datetime.datetime.fromtimestamp(filedate).strftime('%Y-%m-%d')
             date1 = time.time()
             num1 = (date1 - filedate)/60/60/24
@@ -260,7 +271,7 @@ class RDS():
             if num1 >=config.clear:
                 expiredfile +=1
                 try:
-                    os.remove(config.backup_dir + f[i])
+                    os.remove(filename)
                     print (u"已删除文件：%s ： %s" %  (time1, f[i]))
                 except Exception as e:
                     fail+=1
